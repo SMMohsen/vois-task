@@ -1,8 +1,12 @@
 package com.vois.task.integration;
 
 import com.vois.task.VOISTaskApplication;
+import com.vois.task.repository.IoTTrackingDeviceRepository;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +25,10 @@ public class IntegrationTestBase extends ContainerBase {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
+
+    @Autowired
+    private IoTTrackingDeviceRepository ioTTrackingDeviceRepository;
+
     protected MockMvc mockMvc;
 
     protected ObjectMapper mapper = new ObjectMapper();
@@ -31,8 +39,8 @@ public class IntegrationTestBase extends ContainerBase {
         mockMvc = webAppContextSetup(webApplicationContext).build();
     }
 
-    @BeforeAll
-    public void startDB() {
-
+    @After
+    public void clearDb() {
+       ioTTrackingDeviceRepository.deleteAll();
     }
 }

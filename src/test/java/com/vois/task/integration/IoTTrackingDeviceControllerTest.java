@@ -87,6 +87,24 @@ public class IoTTrackingDeviceControllerTest extends IntegrationTestBase {
     }
 
     @Test
+    public void addDeviceWithDuplicatePinTest() throws Exception {
+
+        IoTCreateDeviceDTO createDeviceDTO = new IoTCreateDeviceDTO();
+        createDeviceDTO.setPin("1122334");
+
+        mockMvc.perform(post("/iot/devices")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(createDeviceDTO)));
+
+
+        mockMvc.perform(post("/iot/devices")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(createDeviceDTO)))
+                .andExpect(jsonPath("$.status").value("INTERNAL_SERVER_ERROR"))
+                .andExpect(jsonPath("$.success").value(false));
+    }
+
+    @Test
     public void updateDeviceTest() throws Exception {
 
         String deviceId = addNewDevice("1234567");

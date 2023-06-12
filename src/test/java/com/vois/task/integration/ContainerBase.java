@@ -11,7 +11,7 @@ public abstract class ContainerBase {
     static {
         mongo = new GenericContainer("mongo")
                 .withExposedPorts(27017)
-                .withReuse(true);
+                .withReuse(false);
     }
 
     static {
