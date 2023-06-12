@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  backend:
+    build: .
+    container_name: iot-backend
+    ports:
+      - '9090:9090'
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_HOST=db
+
+  db:
+    image: 'mongo'
+    container_name: db
